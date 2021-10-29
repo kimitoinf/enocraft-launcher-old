@@ -1,0 +1,23 @@
+﻿<Window x:Class="EnocraftLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EnocraftLauncher"
+        mc:Ignorable="d"
+		Closed="Window_Closed"
+        Title="Enocraft Launcher" Height="490" Width="580" Icon="Icon.png" Background="#FF8497B0" ResizeMode="CanMinimize">
+	<Grid Width="560" Height="457">
+		<Image x:Name="image" HorizontalAlignment="Left" Height="255" Margin="10,10,0,0" VerticalAlignment="Top" Width="540" Source="Logo.png"/>
+		<Label x:Name="label" Content="Email" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="24" FontFamily="NanumGothic"/>
+		<Label x:Name="label1" Content="Password" HorizontalAlignment="Left" Margin="10,313,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="24" FontFamily="NanumGothic"/>
+		<TextBox x:Name="emailtext" HorizontalAlignment="Left" Height="38" Margin="130,270,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="280" FontSize="24" FontFamily="NanumGothic" VerticalContentAlignment="Center"/>
+		<PasswordBox x:Name="passwordtext" HorizontalAlignment="Left" Height="38" Margin="130,313,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="NanumGothic" VerticalContentAlignment="Center" Width="280"/>
+		<Button x:Name="loginbutton" Content="Login" HorizontalAlignment="Left" Margin="415,270,0,0" VerticalAlignment="Top" Width="135" Height="81" FontSize="24" FontFamily="NanumGothic" FontWeight="Bold" Click="loginbutton_Click"/>
+		<ProgressBar x:Name="progress" HorizontalAlignment="Left" Height="30" Margin="10,391,0,0" VerticalAlignment="Top" Width="330" FontFamily="NanumGothic"/>
+		<Button x:Name="loginwithmsbutton" Content="Microsoft 계정으로 로그인" HorizontalAlignment="Left" Margin="345,356,0,0" VerticalAlignment="Top" Width="205" Height="65" FontSize="16" FontFamily="NanumGothic" Click="loginwithmsbutton_Click"/>
+		<ProgressBar x:Name="fileprogress" HorizontalAlignment="Left" Height="30" Margin="10,356,0,0" VerticalAlignment="Top" Width="330" FontFamily="NanumGothic"/>
+		<Label x:Name="filelabel" Content="" HorizontalAlignment="Left" Margin="10,421,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="NanumGothic"/>
+
+	</Grid>
+</Window>
