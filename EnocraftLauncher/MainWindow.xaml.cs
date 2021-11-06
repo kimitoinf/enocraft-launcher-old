@@ -1,15 +1,17 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-using CmlLib.Core;
-using CmlLib.Core.Installer.FabricMC;
+﻿using CmlLib.Core;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Auth.Microsoft.UI.Wpf;
 using CmlLib.Core.Downloader;
-using System.Threading.Tasks;
+using CmlLib.Core.Installer;
+using CmlLib.Core.Installer.FabricMC;
+using CmlLib.Core.Version;
+using System;
 using System.ComponentModel;
-using System.Threading;
 using System.IO;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace EnocraftLauncher
 {
@@ -20,19 +22,24 @@ namespace EnocraftLauncher
 	{
 		public static MSession session;
 		public static String fabricversion;
+		public const String serverip = "168.138.6.9";
 		public static String[] ModsURL =
 		{
-			"https://media.forgecdn.net/files/3494/349/fabric-api-0.41.0%2B1.17.jar",
-			"https://media.forgecdn.net/files/3365/545/CocoaInput-1.17-fabric-4.0.4.jar",
-			"https://media.forgecdn.net/files/3497/888/wthit-fabric-3.10.0.jar",
-			"https://media.forgecdn.net/files/3502/8/Xaeros_Minimap_21.20.0_Fabric_1.17.1.jar"
+			//serverip + "/optifabric-1.11.20.jar",
+			//serverip + "/OptiFine_1.17.1_HD_U_G9.jar",
+			serverip + "/fabric-api-0.42.0%2B1.17.jar",
+			serverip + "/CocoaInput-1.17-fabric-4.0.4.jar",
+			serverip + "/wthit-fabric-3.10.0.jar",
+			serverip + "/Xaeros_Minimap_21.21.0_Fabric_1.17.1.jar"
 		};
 		public static String[] ModsName =
 		{
-			"fabric-api.jar",
-			"CocoaInput.jar",
-			"wthit.jar",
-			"Xaeros_Minimap.jar"
+			//"optifabric-1.11.20.jar",
+			//"OptiFine_1.17.1_HD_U_G9.jar",
+			"fabric-api-0.42.0+1.17.jar",
+			"CocoaInput-1.17-fabric-4.0.4.jar",
+			"wthit-fabric-3.10.0.jar",
+			"Xaeros_Minimap_21.21.0_Fabric_1.17.1.jar"
 		};
 
 		public MainWindow()
@@ -72,10 +79,17 @@ namespace EnocraftLauncher
 			loginbutton.IsEnabled = false;
 			loginwithmsbutton.IsEnabled = false;
 			System.Net.ServicePointManager.DefaultConnectionLimit = 256;
-			var path = new MinecraftPath(MinecraftPath.GetOSDefaultPath() + "/enocraft");
+			var launchoption = new MLaunchOption
+			{
+				MaximumRamMb = 1024,
+				Session = session,
+				ServerIp = serverip,
+			};
+			var path = new MinecraftPath(MinecraftPath.GetOSDefaultPath() + "\\enocraft");
 			var launcher = new CMLauncher(path);
 			launcher.FileChanged += FileProgressBar_ProgressChanged;
 			launcher.ProgressChanged += ProgressBar_ProgressChanged;
+
 			var modspath = path.BasePath + "\\mods";
 			var fabricversionloader = new FabricVersionLoader();
 			var fabricversions = await fabricversionloader.GetVersionMetadatasAsync();
@@ -89,27 +103,32 @@ namespace EnocraftLauncher
 			}
 			var fabric = fabricversions.GetVersionMetadata(fabricversion);
 			await fabric.SaveAsync(path);
+
 			DirectoryInfo modsfolder = new DirectoryInfo(modspath);
 			if (modsfolder.Exists == false) modsfolder.Create();
+			else
+			{
+				Directory.Delete(modspath, true);
+				modsfolder.Create();
+			}
 			WebClient webclient = new WebClient();
 			webclient.DownloadProgressChanged += ProgressBar_ProgressChanged;
-			for (int loop = 0; loop < 4; loop++)
+			for (int loop = 0; loop < ModsURL.Length; loop++)
 			{
 				while (true)
 				{
 					if (!webclient.IsBusy)
 					{
-						webclient.DownloadFileAsync(new Uri(ModsURL[loop]), modspath + "\\" + ModsName[loop]);
+						webclient.DownloadFileAsync(new Uri("http://" + ModsURL[loop]), modspath + "\\" + ModsName[loop]);
 						break;
 					}
 				}
 			}
-			var launchoption = new MLaunchOption
+			while (true)
 			{
-				MaximumRamMb = 1024,
-				Session = session,
-				ServerIp = "168.138.6.9",
-			};
+				if (!webclient.IsBusy)
+					break;
+			}
 			var process = await launcher.CreateProcessAsync(fabricversion, launchoption);
 			process.Start();
 			Environment.Exit(0);
