@@ -2,14 +2,11 @@
 using CmlLib.Core.Auth;
 using CmlLib.Core.Auth.Microsoft.UI.Wpf;
 using CmlLib.Core.Downloader;
-using CmlLib.Core.Installer;
 using CmlLib.Core.Installer.FabricMC;
-using CmlLib.Core.Version;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -30,7 +27,7 @@ namespace EnocraftLauncher
 			serverip + "/fabric-api-0.42.0%2B1.17.jar",
 			serverip + "/CocoaInput-1.17-fabric-4.0.4.jar",
 			serverip + "/wthit-fabric-3.10.0.jar",
-			serverip + "/Xaeros_Minimap_21.21.0_Fabric_1.17.1.jar"
+			serverip + "/Xaeros_Minimap_FP21.21.0_Fabric_1.17.1.jar"
 		};
 		public static String[] ModsName =
 		{
@@ -39,7 +36,7 @@ namespace EnocraftLauncher
 			"fabric-api-0.42.0+1.17.jar",
 			"CocoaInput-1.17-fabric-4.0.4.jar",
 			"wthit-fabric-3.10.0.jar",
-			"Xaeros_Minimap_21.21.0_Fabric_1.17.1.jar"
+			"Xaeros_Minimap_FP21.21.0_Fabric_1.17.1.jar"
 		};
 
 		public MainWindow()
